@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#include "../indra/newview/ctsassistant/ctsplan.h"
+#include "../indra/newview/fsinventorytools/ctsplan.h"
 
 int main()
 {

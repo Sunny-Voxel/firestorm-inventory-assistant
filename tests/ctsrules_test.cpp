@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "../indra/newview/ctsassistant/ctsrules.h"
+#include "../indra/newview/fsinventorytools/ctsrules.h"
 
 int main()
 {
