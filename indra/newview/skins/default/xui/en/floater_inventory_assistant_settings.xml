@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<floater
+ can_close="true"
+ can_minimize="false"
+ can_resize="false"
+ height="450"
+ width="340"
+ layout="topleft"
+ name="inventory_assistant_settings"
+ title="Inventory Assistant - Bodies">
+
+    <text left="14" top="30" width="312" height="34" word_wrap="true">
+        Select the bodies you use. Recognized bodies that are not selected are kept in Add On.
+    </text>
+
+    <check_box left="18" top="78" width="145" height="20" label="Lara X" name="body_larax"/>
+    <check_box left="175" top="78" width="145" height="20" label="Legacy" name="body_legacy"/>
+    <check_box left="18" top="106" width="145" height="20" label="Reborn" name="body_reborn"/>
+    <check_box left="175" top="106" width="145" height="20" label="Lara" name="body_lara"/>
+    <check_box left="18" top="134" width="145" height="20" label="Lara Petite" name="body_larapetite"/>
+    <check_box left="175" top="134" width="145" height="20" label="Freya" name="body_freya"/>
+    <check_box left="18" top="162" width="145" height="20" label="Hourglass" name="body_hourglass"/>
+    <check_box left="175" top="162" width="145" height="20" label="Physique" name="body_physique"/>
+    <check_box left="18" top="190" width="145" height="20" label="SLink Hourglass" name="body_slinkhourglass"/>
+    <check_box left="175" top="190" width="145" height="20" label="SLink Physique" name="body_slinkphysique"/>
+    <check_box left="18" top="218" width="145" height="20" label="Kupra" name="body_kupra"/>
+    <check_box left="175" top="218" width="145" height="20" label="Gen X" name="body_genx"/>
+
+    <text left="14" top="264" width="312" height="58" word_wrap="true">
+        Unknown bodies are disabled by default. Items without a body can still be organized by type, placement and Left/Right when confidence is sufficient.
+    </text>
+
+    <button follows="bottom|left" left="70" top="398" width="90" height="24"
+            label="Save" name="save_btn"/>
+    <button follows="bottom|right" left="180" top="398" width="90" height="24"
+            label="Cancel" name="cancel_btn"/>
+</floater>

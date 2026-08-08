@@ -1563,5 +1563,138 @@
             <key>Value</key>
             <map/>
         </map>
+    <key>FSInventoryAssistantBodyLaraX</key>
+    <map>
+        <key>Comment</key>
+        <string>Inventory Assistant body selection.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>Boolean</string>
+        <key>Value</key>
+        <integer>1</integer>
+    </map>
+    <key>FSInventoryAssistantBodyLegacy</key>
+    <map>
+        <key>Comment</key>
+        <string>Inventory Assistant body selection.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>Boolean</string>
+        <key>Value</key>
+        <integer>1</integer>
+    </map>
+    <key>FSInventoryAssistantBodyReborn</key>
+    <map>
+        <key>Comment</key>
+        <string>Inventory Assistant body selection.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>Boolean</string>
+        <key>Value</key>
+        <integer>1</integer>
+    </map>
+    <key>FSInventoryAssistantBodyLara</key>
+    <map>
+        <key>Comment</key>
+        <string>Inventory Assistant body selection.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>Boolean</string>
+        <key>Value</key>
+        <integer>0</integer>
+    </map>
+    <key>FSInventoryAssistantBodyLaraPetite</key>
+    <map>
+        <key>Comment</key>
+        <string>Inventory Assistant body selection.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>Boolean</string>
+        <key>Value</key>
+        <integer>0</integer>
+    </map>
+    <key>FSInventoryAssistantBodyFreya</key>
+    <map>
+        <key>Comment</key>
+        <string>Inventory Assistant body selection.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>Boolean</string>
+        <key>Value</key>
+        <integer>0</integer>
+    </map>
+    <key>FSInventoryAssistantBodyHourglass</key>
+    <map>
+        <key>Comment</key>
+        <string>Inventory Assistant body selection.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>Boolean</string>
+        <key>Value</key>
+        <integer>0</integer>
+    </map>
+    <key>FSInventoryAssistantBodyPhysique</key>
+    <map>
+        <key>Comment</key>
+        <string>Inventory Assistant body selection.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>Boolean</string>
+        <key>Value</key>
+        <integer>0</integer>
+    </map>
+    <key>FSInventoryAssistantBodySLinkHourglass</key>
+    <map>
+        <key>Comment</key>
+        <string>Inventory Assistant body selection.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>Boolean</string>
+        <key>Value</key>
+        <integer>0</integer>
+    </map>
+    <key>FSInventoryAssistantBodySLinkPhysique</key>
+    <map>
+        <key>Comment</key>
+        <string>Inventory Assistant body selection.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>Boolean</string>
+        <key>Value</key>
+        <integer>0</integer>
+    </map>
+    <key>FSInventoryAssistantBodyKupra</key>
+    <map>
+        <key>Comment</key>
+        <string>Inventory Assistant body selection.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>Boolean</string>
+        <key>Value</key>
+        <integer>0</integer>
+    </map>
+    <key>FSInventoryAssistantBodyGenX</key>
+    <map>
+        <key>Comment</key>
+        <string>Inventory Assistant body selection.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>Boolean</string>
+        <key>Value</key>
+        <integer>0</integer>
+    </map>
+
     </map>
 </llsd>

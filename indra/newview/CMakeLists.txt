@@ -501,11 +501,16 @@ set(viewer_SOURCE_FILES
     fsinventorytools/ctsrules.cpp
     fsinventorytools/ctsplan.cpp
     fsinventorytools/ctsdestinationplanner.cpp
+    fsinventorytools/ctsitemclassifier.cpp
+    fsinventorytools/ctsbodysettings.cpp
     fsinventorytools/ctsexecutionplan.cpp
+    fsinventorytools/ctsexecutor.cpp
+    fsinventorytools/ctsundomanager.cpp
     fsinventorytools/ctsproductanalysis.cpp
     fsinventorytools/fsinventoryscan.cpp
     fsinventorytools/fsinventoryadapter.cpp
     llfloaterinventoryassistant.cpp
+    llfloaterinventoryassistantsettings.cpp
     llinventorybridge.cpp
     llinventoryfilter.cpp
     llinventoryfunctions.cpp
@@ -1375,12 +1380,17 @@ set(viewer_HEADER_FILES
     fsinventorytools/ctsclassification.h
     fsinventorytools/ctsplan.h
     fsinventorytools/ctsdestinationplanner.h
+    fsinventorytools/ctsitemclassifier.h
+    fsinventorytools/ctsbodysettings.h
     fsinventorytools/ctsexecutionplan.h
+    fsinventorytools/ctsexecutor.h
+    fsinventorytools/ctsundomanager.h
     fsinventorytools/ctsproductanalysis.h
     fsinventorytools/ctsrules.h
     fsinventorytools/fsinventoryscan.h
     fsinventorytools/fsinventoryadapter.h
     llfloaterinventoryassistant.h
+    llfloaterinventoryassistantsettings.h
     llinventorybridge.h
     llinventoryfilter.h
     llinventoryfunctions.h
