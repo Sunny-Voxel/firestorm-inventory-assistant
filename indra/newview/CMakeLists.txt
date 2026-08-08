@@ -500,9 +500,12 @@ set(viewer_SOURCE_FILES
     llinspecttoast.cpp
     fsinventorytools/ctsrules.cpp
     fsinventorytools/ctsplan.cpp
+    fsinventorytools/ctsdestinationplanner.cpp
+    fsinventorytools/ctsexecutionplan.cpp
     fsinventorytools/ctsproductanalysis.cpp
     fsinventorytools/fsinventoryscan.cpp
     fsinventorytools/fsinventoryadapter.cpp
+    llfloaterinventoryassistant.cpp
     llinventorybridge.cpp
     llinventoryfilter.cpp
     llinventoryfunctions.cpp
@@ -1371,10 +1374,13 @@ set(viewer_HEADER_FILES
     llinspecttoast.h
     fsinventorytools/ctsclassification.h
     fsinventorytools/ctsplan.h
+    fsinventorytools/ctsdestinationplanner.h
+    fsinventorytools/ctsexecutionplan.h
     fsinventorytools/ctsproductanalysis.h
     fsinventorytools/ctsrules.h
     fsinventorytools/fsinventoryscan.h
     fsinventorytools/fsinventoryadapter.h
+    llfloaterinventoryassistant.h
     llinventorybridge.h
     llinventoryfilter.h
     llinventoryfunctions.h

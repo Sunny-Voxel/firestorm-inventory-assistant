@@ -3932,7 +3932,9 @@ void LLFolderBridge::performAction(LLInventoryModel* model, std::string action)
     // </FS:MJR> [FIRE-36793]
     else if ("cts_analyze" == action)
     {
-        FSInventoryAdapter::analyzeFolder(mUUID);
+        LLSD key;
+        key["folder_id"] = mUUID;
+        LLFloaterReg::showInstance("inventory_assistant", key);
         return;
     }
     else if ("properties" == action)

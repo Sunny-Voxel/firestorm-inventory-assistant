@@ -47,6 +47,12 @@ std::string CTSRules::classifyItem(const std::string& itemName)
     if (name.find("maitreya") != std::string::npos)
         return "Lara";
 
+    // Mange creators bruger blot "Lara" i item-navnet.
+    // De mere specifikke LaraX/Lara Petite-regler ligger ovenfor,
+    // så de bliver fortsat valgt først.
+    if (name.find("lara") != std::string::npos)
+        return "Lara";
+
     if (name.find("legacy") != std::string::npos)
         return "Legacy";
 
