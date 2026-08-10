@@ -55,6 +55,36 @@ void addSignal(CTSItemClassification& result, const std::string& signal, int sco
     result.score += score;
 }
 
+std::string findLooseBody(const std::string& original)
+{
+    const std::string value = lowerCopy(original);
+
+    const std::vector<std::pair<std::string, std::string>> aliases =
+    {
+        {"maitreya lara x", "Lara X"},
+        {"larax", "Lara X"},
+        {"lara petite", "Lara Petite"},
+        {"larapetite", "Lara Petite"},
+        {"slinkhourglass", "SLink Hourglass"},
+        {"slinkphysique", "SLink Physique"},
+        {"maitreya", "Lara"},
+        {"legacy", "Legacy"},
+        {"reborn", "Reborn"},
+        {"kupra", "Kupra"},
+        {"erika", "Erika"},
+        {"vtech", "VTech"},
+        {"freya", "Freya"}
+    };
+
+    for (const auto& alias : aliases)
+    {
+        if (value.find(alias.first) != std::string::npos)
+            return alias.second;
+    }
+
+    return std::string();
+}
+
 std::string findFirst(
     const std::string& name,
     const std::vector<std::pair<std::string, std::string>>& values)
@@ -141,8 +171,14 @@ CTSItemClassification CTSItemClassifier::classify(const std::string& itemName)
         {"maitreya lara x", "Lara X"},
         {"lara x", "Lara X"},
         {"lara petite", "Lara Petite"},
+        {"slink h petite", "SLink Hourglass"},
+        {"slink p petite", "SLink Physique"},
         {"slink hourglass", "SLink Hourglass"},
         {"slink physique", "SLink Physique"},
+        {"slink h", "SLink Hourglass"},
+        {"slink p", "SLink Physique"},
+        {"b freya", "Freya"},
+        {"vtech", "VTech"},
         {"gen x", "Gen X"},
         {"legacy", "Legacy"},
         {"reborn", "Reborn"},
@@ -151,15 +187,21 @@ CTSItemClassification CTSItemClassifier::classify(const std::string& itemName)
         {"physique", "Physique"},
         {"kupra", "Kupra"},
         {"maitreya", "Lara"},
+        {"maitr", "Lara"},
         {"lara", "Lara"}
     };
 
     result.body = findFirst(name, bodies);
+
+    if (result.body.empty())
+        result.body = findLooseBody(itemName);
+
     if (!result.body.empty())
         addSignal(result, "body=" + result.body, 35);
 
     const std::vector<std::pair<std::string, std::string>> types =
     {
+        {"body", "Body"},
         {"bikini thong", "Thong"},
         {"bikinithong", "Thong"},
         {"thong", "Thong"},
@@ -247,24 +289,14 @@ CTSItemClassification CTSItemClassifier::classify(const std::string& itemName)
         result.side = "Both";
         addSignal(result, "side=Both", 10);
     }
-    else
-    {
-        // Standalone L/R only. normalized() supplies safe token boundaries.
-        if (containsPhrase(name, "l"))
-        {
-            result.side = "Left";
-            addSignal(result, "side=Left(short)", 15);
-        }
-        else if (containsPhrase(name, "r"))
-        {
-            result.side = "Right";
-            addSignal(result, "side=Right(short)", 15);
-        }
-    }
 
     // Semantic variants. Most specific phrases must come first.
     const std::vector<std::pair<std::string, std::string>> variants =
     {
+        {"animalistic ver", "Animalistic"},
+        {"animalistic", "Animalistic"},
+        {"xtra shine", "Xtra Shine"},
+        {"extra shine", "Xtra Shine"},
         {"without piercing", "Without Piercing"},
         {"w/o piercing", "Without Piercing"},
         {"wo piercing", "Without Piercing"},
@@ -312,6 +344,7 @@ CTSItemClassification CTSItemClassifier::classify(const std::string& itemName)
         {"black", "Black"}, {"white", "White"}, {"red", "Red"},
         {"blue", "Blue"}, {"green", "Green"}, {"pink", "Pink"},
         {"purple", "Purple"}, {"yellow", "Yellow"}, {"brown", "Brown"},
+        {"tortoise", "Tortoise"},
         {"grey", "Grey"}, {"gray", "Grey"}, {"orange", "Orange"}
     };
 

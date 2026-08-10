@@ -501,6 +501,7 @@ set(viewer_SOURCE_FILES
     fsinventorytools/ctsrules.cpp
     fsinventorytools/ctsplan.cpp
     fsinventorytools/ctsdestinationplanner.cpp
+    fsinventorytools/ctsproductpatternanalyzer.cpp
     fsinventorytools/ctsitemclassifier.cpp
     fsinventorytools/ctsbodysettings.cpp
     fsinventorytools/ctsexecutionplan.cpp
@@ -1380,6 +1381,7 @@ set(viewer_HEADER_FILES
     fsinventorytools/ctsclassification.h
     fsinventorytools/ctsplan.h
     fsinventorytools/ctsdestinationplanner.h
+    fsinventorytools/ctsproductpatternanalyzer.h
     fsinventorytools/ctsitemclassifier.h
     fsinventorytools/ctsbodysettings.h
     fsinventorytools/ctsexecutionplan.h

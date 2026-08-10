@@ -4,7 +4,6 @@
 #include "fsinventoryscan.h"
 #include "ctsitemclassifier.h"
 
-#include <cstddef>
 #include <map>
 #include <string>
 #include <vector>
@@ -26,17 +25,6 @@ class CTSDestinationPlanner
 public:
     static CTSDestinationPlan build(
         const FSInventoryScanResult& scan);
-
-private:
-    static std::string chooseDestination(
-        const FSInventoryScannedItem& item,
-        const CTSItemClassification& classification,
-        bool splitVersion,
-        bool splitVariant,
-        std::size_t alphaCount,
-        const std::vector<std::string>& existingFolders,
-        bool& parkedInAddOn,
-        std::string& reason);
 };
 
 #endif
