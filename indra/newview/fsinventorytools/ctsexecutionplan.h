@@ -18,6 +18,22 @@ struct CTSPlannedFolderCreate
     std::string folderName;
 };
 
+struct CTSPlannedFolderRename
+{
+    LLUUID folderId;
+    std::string oldName;
+    std::string newName;
+};
+
+struct CTSPlannedDuplicateRemoval
+{
+    LLUUID itemId;
+    LLUUID sourceFolderId;
+    std::string itemName;
+    std::string sourceFolderName;
+    std::string destinationFolderName;
+};
+
 struct CTSPlannedMove
 {
     LLUUID itemId;
@@ -31,13 +47,20 @@ struct CTSExecutionPlan
 {
     CTSExecutionMode mode = CTSExecutionMode::Repair;
     std::string productName;
+
+    std::vector<CTSPlannedFolderRename> foldersToRename;
     std::vector<CTSPlannedFolderCreate> foldersToCreate;
     std::vector<CTSPlannedMove> moves;
+    std::vector<CTSPlannedDuplicateRemoval> duplicatesToRemove;
+
     std::size_t alreadyCorrect = 0;
 
     bool empty() const
     {
-        return foldersToCreate.empty() && moves.empty();
+        return foldersToRename.empty() &&
+               foldersToCreate.empty() &&
+               moves.empty() &&
+               duplicatesToRemove.empty();
     }
 };
 

@@ -15,6 +15,7 @@ void CTSUndoManager::setLastTransaction(const CTSUndoTransaction& transaction)
     mLastTransaction = transaction;
     mHasTransaction =
         !transaction.moves.empty() ||
+        !transaction.renames.empty() ||
         !transaction.removedSourceFolders.empty();
 
     LL_INFOS("FSInventoryTools")
@@ -126,6 +127,57 @@ void CTSUndoManager::undo(completion_func_t completion)
             ++result.itemsSkipped;
     }
 
+
+    // Restore folder names after items have been moved back.
+    for (auto it = mLastTransaction.renames.rbegin();
+         it != mLastTransaction.renames.rend();
+         ++it)
+    {
+        LLViewerInventoryCategory* category =
+            gInventory.getCategory(it->folderId);
+
+        if (!category)
+        {
+            ++result.renamesSkipped;
+            continue;
+        }
+
+        // Do not overwrite a manual rename performed after Execute.
+        if (category->getName() != it->newName)
+        {
+            ++result.renamesSkipped;
+            continue;
+        }
+
+        LL_INFOS("FSInventoryTools")
+            << "Undo restoring folder name: "
+            << it->newName
+            << " -> "
+            << it->oldName
+            << LL_ENDL;
+
+        LLPointer<LLViewerInventoryCategory> restored =
+            new LLViewerInventoryCategory(category);
+
+        restored->rename(it->oldName);
+        restored->updateServer(false);
+        gInventory.updateCategory(restored);
+        gInventory.notifyObservers();
+
+        LLViewerInventoryCategory* updated =
+            gInventory.getCategory(it->folderId);
+
+        if (updated &&
+            updated->getName() == it->oldName)
+        {
+            ++result.renamesRestored;
+        }
+        else
+        {
+            ++result.renamesSkipped;
+        }
+    }
+
     for (auto it = mLastTransaction.createdFolderIds.rbegin();
          it != mLastTransaction.createdFolderIds.rend();
          ++it)
@@ -167,10 +219,26 @@ void CTSUndoManager::undo(completion_func_t completion)
 
     result.success =
         result.itemsSkipped == 0 &&
-        result.itemsRestored == mLastTransaction.moves.size();
+        result.renamesSkipped == 0 &&
+        result.itemsRestored == mLastTransaction.moves.size() &&
+        result.renamesRestored == mLastTransaction.renames.size();
 
     std::ostringstream msg;
     msg << "Undo: " << result.itemsRestored << " items gendannet";
+
+    if (result.renamesRestored)
+    {
+        msg << ", "
+            << result.renamesRestored
+            << " folder names restored";
+    }
+
+    if (result.renamesSkipped)
+    {
+        msg << ", "
+            << result.renamesSkipped
+            << " folder renames skipped";
+    }
 
     if (result.foldersRestored)
         msg << ", " << result.foldersRestored << " originale mapper gendannet";

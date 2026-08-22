@@ -184,7 +184,7 @@
 <button
      follows="bottom|left"
      height="24"
-     left="426"
+     left="323"
      top="602"
      width="95"
      label="Undo"

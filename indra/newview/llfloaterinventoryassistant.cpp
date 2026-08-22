@@ -17,6 +17,7 @@
 
 #include <sstream>
 #include <string>
+#include <set>
 
 namespace
 {
@@ -142,12 +143,30 @@ void LLFloaterInventoryAssistant::analyzeFolder()
     CTSDestinationPlan plan =
         CTSDestinationPlanner::build(scan);
 
+    // CTS_DUPLICATE_PREVIEW_0019B
+    // Duplicate cleanup is planned in CTSExecutionPlanBuilder.
+    // Build a dry-run plan here so duplicates are visible in the
+    // main preview before Repair/Organize is pressed.
+    CTSExecutionPlan previewExecutionPlan =
+        CTSExecutionPlanBuilder::build(
+            scan,
+            plan,
+            CTSExecutionMode::Repair);
+
+    std::set<LLUUID> previewDuplicateIds;
+    for (const CTSPlannedDuplicateRemoval& duplicate :
+         previewExecutionPlan.duplicatesToRemove)
+    {
+        previewDuplicateIds.insert(duplicate.itemId);
+    }
+
     mProductText->setText(LLStringExplicit(scan.productName));
     mPlanList->clearRows();
 
     std::size_t moveCount = 0;
     std::size_t correctCount = 0;
     std::size_t parkedCount = 0;
+    std::size_t duplicateCount = 0;
 
     for (const auto& group : plan)
     {
@@ -158,13 +177,22 @@ void LLFloaterInventoryAssistant::analyzeFolder()
         for (const CTSDestinationPlannedItem& planned : group.second)
         {
             const FSInventoryScannedItem& item = planned.item;
+            const bool duplicate =
+                previewDuplicateIds.count(item.itemId) != 0;
+
             const bool alreadyCorrect =
+                !duplicate &&
                 LLStringUtil::compareInsensitive(
                     item.sourceFolderName, destination) == 0;
 
             if (planned.parkedInAddOn) ++parkedCount;
-            if (alreadyCorrect) ++correctCount;
-            else ++moveCount;
+
+            if (duplicate)
+                ++duplicateCount;
+            else if (alreadyCorrect)
+                ++correctCount;
+            else
+                ++moveCount;
 
             LLSD row;
             row["value"] = item.itemId;
@@ -172,7 +200,12 @@ void LLFloaterInventoryAssistant::analyzeFolder()
 
             columns[0]["column"] = "status";
             columns[0]["value"] =
-                statusText(alreadyCorrect, !destinationExists, planned.parkedInAddOn);
+                duplicate
+                    ? "DUPLICATE"
+                    : statusText(
+                        alreadyCorrect,
+                        !destinationExists,
+                        planned.parkedInAddOn);
 
             columns[1]["column"] = "destination";
             columns[1]["value"] = destination;
@@ -195,25 +228,36 @@ void LLFloaterInventoryAssistant::analyzeFolder()
     mMovesText->setText(LLStringExplicit(std::to_string(moveCount)));
     mFoldersText->setText(LLStringExplicit(std::to_string(plan.size())));
 
+    const std::size_t actionCount =
+        moveCount + duplicateCount;
+
     std::ostringstream status;
-    if (moveCount == 0)
+    if (actionCount == 0)
     {
         status << "Ready - no changes needed";
     }
     else
     {
-        status << moveCount << " changes found";
+        status << actionCount << " changes found";
+
+        if (duplicateCount)
+            status << " | " << duplicateCount << " duplicates";
+
         if (parkedCount)
             status << " | " << parkedCount << " items kept in Add On";
     }
 
     mStatusText->setText(LLStringExplicit(status.str()));
-    getChild<LLButton>("repair_btn")->setEnabled(moveCount > 0);
-    getChild<LLButton>("organize_btn")->setEnabled(moveCount > 0);
+
+    getChild<LLButton>("repair_btn")->setEnabled(
+        actionCount > 0);
+    getChild<LLButton>("organize_btn")->setEnabled(
+        actionCount > 0);
 
     mDetails->setText(LLStringExplicit(
         "Analysis runs automatically when the window opens.\n\n"
         "OK = already correct\n"
+            "DUPLICATE = extra item with the same visible name\n"
         "MOVE = move to existing folder\n"
         "NEW FOLDER = create destination folder\n"
         "ADD ON = body is disabled or confidence is low\n\n"
@@ -263,6 +307,20 @@ void LLFloaterInventoryAssistant::prepareAction(PendingAction action)
             << " - REVIEW PLAN\n\n"
             << "New folders: " << executionPlan.foldersToCreate.size() << "\n"
             << "Moves: " << executionPlan.moves.size() << "\n\n";
+
+    for (const CTSPlannedFolderRename& rename :
+         executionPlan.foldersToRename)
+    {
+        details
+            << "RENAME  "
+            << rename.oldName
+            << " -> "
+            << rename.newName
+            << "\n";
+    }
+
+    if (!executionPlan.foldersToRename.empty())
+        details << "\n";
 
     for (const CTSPlannedMove& move : executionPlan.moves)
     {

@@ -36,6 +36,7 @@ struct CTSExecutor::Context
 
     CTSUndoTransaction transaction;
     CTSExecutionResult result;
+    std::size_t duplicatesRemoved = 0;
 };
 
 bool CTSExecutor::preflight(
@@ -61,6 +62,66 @@ bool CTSExecutor::preflight(
         {
             if (!category) continue;
             destinationFolders[lowerCopy(category->getName())] = category->getUUID();
+        }
+    }
+
+    for (const CTSPlannedFolderRename& rename :
+         plan.foldersToRename)
+    {
+        LLViewerInventoryCategory* category =
+            gInventory.getCategory(rename.folderId);
+
+        if (!category)
+        {
+            error =
+                "A planned folder rename no longer exists: "
+                + rename.oldName;
+            return false;
+        }
+
+        if (category->getParentUUID() != productFolderId ||
+            category->getName() != rename.oldName)
+        {
+            error =
+                "Inventory changed after preview. Refresh and try again: "
+                + rename.oldName;
+            return false;
+        }
+
+        const std::string target =
+            lowerCopy(rename.newName);
+
+        const auto existing =
+            destinationFolders.find(target);
+
+        if (existing != destinationFolders.end() &&
+            existing->second != rename.folderId)
+        {
+            error =
+                "Rename destination already exists: "
+                + rename.newName;
+            return false;
+        }
+
+        // Conservative safety check: never rename a folder
+        // containing child folders.
+        LLInventoryModel::cat_array_t* childCategories =
+            nullptr;
+        LLInventoryModel::item_array_t* childItems =
+            nullptr;
+
+        gInventory.getDirectDescendentsOf(
+            rename.folderId,
+            childCategories,
+            childItems);
+
+        if (childCategories &&
+            !childCategories->empty())
+        {
+            error =
+                "Folder contains subfolders and cannot be renamed automatically: "
+                + rename.oldName;
+            return false;
         }
     }
 
@@ -100,6 +161,30 @@ bool CTSExecutor::preflight(
         }
     }
 
+
+    for (const CTSPlannedDuplicateRemoval& duplicate :
+         plan.duplicatesToRemove)
+    {
+        LLViewerInventoryItem* item =
+            gInventory.getItem(duplicate.itemId);
+
+        if (!item)
+        {
+            error =
+                "A planned duplicate no longer exists: "
+                + duplicate.itemName;
+            return false;
+        }
+
+        if (item->getParentUUID() != duplicate.sourceFolderId)
+        {
+            error =
+                "Inventory changed after preview. Refresh and try again: "
+                + duplicate.itemName;
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -128,11 +213,67 @@ void CTSExecutor::execute(
         finish(context, false, error);
         return;
     }
-
-    if (plan.moves.empty())
+    // Rename safe source folders before creating destinations.
+    for (const CTSPlannedFolderRename& rename :
+         plan.foldersToRename)
     {
-        finish(context, true, "Ingen flytninger er nødvendige.");
-        return;
+        LLViewerInventoryCategory* category =
+            gInventory.getCategory(rename.folderId);
+
+        if (!category ||
+            category->getName() != rename.oldName)
+        {
+            finish(
+                context,
+                false,
+                "Folder changed before rename: " +
+                    rename.oldName);
+            return;
+        }
+
+        LL_INFOS("FSInventoryTools")
+            << "Executing folder rename: "
+            << rename.oldName
+            << " -> "
+            << rename.newName
+            << LL_ENDL;
+
+        LLPointer<LLViewerInventoryCategory> renamed =
+            new LLViewerInventoryCategory(category);
+
+        renamed->rename(rename.newName);
+        renamed->updateServer(false);
+        gInventory.updateCategory(renamed);
+        gInventory.notifyObservers();
+
+        LLViewerInventoryCategory* updated =
+            gInventory.getCategory(rename.folderId);
+
+        if (!updated ||
+            updated->getName() != rename.newName)
+        {
+            finish(
+                context,
+                false,
+                "Could not confirm folder rename: " +
+                    rename.oldName);
+            return;
+        }
+
+        context->destinationFolders.erase(
+            lowerCopy(rename.oldName));
+
+        context->destinationFolders[
+            lowerCopy(rename.newName)] =
+                rename.folderId;
+
+        CTSUndoRename undoRename;
+        undoRename.folderId = rename.folderId;
+        undoRename.oldName = rename.oldName;
+        undoRename.newName = rename.newName;
+
+        context->transaction.renames.push_back(
+            undoRename);
     }
 
     createNextFolder(context);
@@ -226,6 +367,77 @@ void CTSExecutor::moveItems(const std::shared_ptr<Context>& context)
         ++context->result.itemsMoved;
     }
 
+
+    // Remove duplicate visible-name items by moving extras to Trash.
+    // The normal Undo move transaction restores them if Undo is used.
+    const LLUUID trashId =
+        gInventory.findCategoryUUIDForType(
+            LLFolderType::FT_TRASH);
+
+    if (!context->plan.duplicatesToRemove.empty() &&
+        trashId.isNull())
+    {
+        rollbackMovedItems(context);
+        finish(
+            context,
+            false,
+            "Trash folder could not be found for duplicate cleanup.");
+        return;
+    }
+
+    for (const CTSPlannedDuplicateRemoval& duplicate :
+         context->plan.duplicatesToRemove)
+    {
+        LLViewerInventoryItem* item =
+            gInventory.getItem(duplicate.itemId);
+
+        if (!item ||
+            item->getParentUUID() != duplicate.sourceFolderId)
+        {
+            rollbackMovedItems(context);
+            finish(
+                context,
+                false,
+                "Duplicate changed during execution: " +
+                    duplicate.itemName);
+            return;
+        }
+
+        const LLUUID originalParent = item->getParentUUID();
+
+        LL_INFOS("FSInventoryTools")
+            << "Removing duplicate by visible name: "
+            << duplicate.itemName
+            << " from "
+            << duplicate.sourceFolderName
+            << LL_ENDL;
+
+        gInventory.changeItemParent(item, trashId, true);
+
+        LLViewerInventoryItem* updated =
+            gInventory.getItem(duplicate.itemId);
+
+        if (!updated || updated->getParentUUID() != trashId)
+        {
+            rollbackMovedItems(context);
+            finish(
+                context,
+                false,
+                "Duplicate removal could not be confirmed: " +
+                    duplicate.itemName);
+            return;
+        }
+
+        CTSUndoMove undoMove;
+        undoMove.itemId = duplicate.itemId;
+        undoMove.originalParentId = originalParent;
+        undoMove.newParentId = trashId;
+        undoMove.itemName = duplicate.itemName;
+
+        context->transaction.moves.push_back(undoMove);
+        ++context->duplicatesRemoved;
+    }
+
     // Ryd op i eksisterende source-foldere som denne transaction har tømt.
     // Kun direkte undermapper til produktet røres.
     std::set<LLUUID> sourceFolderIds;
@@ -293,7 +505,20 @@ void CTSExecutor::moveItems(const std::shared_ptr<Context>& context)
     CTSUndoManager::instance().setLastTransaction(context->transaction);
 
     std::ostringstream message;
-    message << context->result.itemsMoved << " items flyttet";
+    if (!context->transaction.renames.empty())
+        message << context->transaction.renames.size()
+                << " folders renamed";
+
+    if (!context->transaction.renames.empty() &&
+        context->result.itemsMoved)
+        message << ", ";
+
+    message << context->result.itemsMoved << " items moved";
+    if (context->duplicatesRemoved)
+        message << ", "
+                << context->duplicatesRemoved
+                << " duplicates removed";
+
     if (context->result.foldersCreated)
         message << ", " << context->result.foldersCreated << " mapper oprettet";
     message << ".";

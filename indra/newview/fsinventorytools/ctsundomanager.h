@@ -7,6 +7,13 @@
 #include <string>
 #include <vector>
 
+struct CTSUndoRename
+{
+    LLUUID folderId;
+    std::string oldName;
+    std::string newName;
+};
+
 struct CTSUndoMove
 {
     LLUUID itemId;
@@ -27,6 +34,7 @@ struct CTSUndoTransaction
     LLUUID productFolderId;
     std::string productName;
     std::vector<CTSUndoMove> moves;
+    std::vector<CTSUndoRename> renames;
     std::vector<LLUUID> createdFolderIds;
     std::vector<CTSRemovedSourceFolder> removedSourceFolders;
 };
@@ -36,6 +44,8 @@ struct CTSUndoResult
     bool success = false;
     std::size_t itemsRestored = 0;
     std::size_t itemsSkipped = 0;
+    std::size_t renamesRestored = 0;
+    std::size_t renamesSkipped = 0;
     std::size_t foldersRemoved = 0;
     std::size_t foldersRestored = 0;
     std::size_t foldersKept = 0;
