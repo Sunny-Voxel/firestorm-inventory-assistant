@@ -22,6 +22,7 @@ struct FSInventoryScanResult
     LLUUID productFolderId;
     std::string productName;
 
+    std::vector<std::string> existingFolderNames;
     std::vector<FSInventoryScannedItem> items;
 };
 

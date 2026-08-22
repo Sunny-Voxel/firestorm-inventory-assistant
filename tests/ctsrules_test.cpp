@@ -13,6 +13,7 @@ int main()
 
     Test tests[] =
     {
+        {"BikiniTop02 - Black / Lara", "Lara"},
         {"Dress LaraX",          "LaraX"},
         {"Corset Lara X",        "LaraX"},
         {"Top LaraX Petite",     "LaraX Petite"},

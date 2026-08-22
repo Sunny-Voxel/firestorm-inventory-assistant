@@ -84,6 +84,8 @@ FSInventoryScanResult FSInventoryScanner::scanProductFolder(
                 continue;
             }
 
+            result.existingFolderNames.push_back(category->getName());
+
             scanFolderItems(
                 category->getUUID(),
                 category->getName(),
