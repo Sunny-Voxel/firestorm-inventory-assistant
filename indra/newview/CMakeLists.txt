@@ -498,6 +498,11 @@ set(viewer_SOURCE_FILES
     llinspectremoteobject.cpp
     llinspecttexture.cpp
     llinspecttoast.cpp
+    fsinventorytools/ctsrules.cpp
+    fsinventorytools/ctsplan.cpp
+    fsinventorytools/ctsproductanalysis.cpp
+    fsinventorytools/fsinventoryscan.cpp
+    fsinventorytools/fsinventoryadapter.cpp
     llinventorybridge.cpp
     llinventoryfilter.cpp
     llinventoryfunctions.cpp
@@ -1364,6 +1369,12 @@ set(viewer_HEADER_FILES
     llinspectremoteobject.h
     llinspecttexture.h
     llinspecttoast.h
+    fsinventorytools/ctsclassification.h
+    fsinventorytools/ctsplan.h
+    fsinventorytools/ctsproductanalysis.h
+    fsinventorytools/ctsrules.h
+    fsinventorytools/fsinventoryscan.h
+    fsinventorytools/fsinventoryadapter.h
     llinventorybridge.h
     llinventoryfilter.h
     llinventoryfunctions.h

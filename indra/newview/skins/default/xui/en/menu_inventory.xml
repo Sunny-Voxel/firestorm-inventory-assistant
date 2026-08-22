@@ -586,7 +586,15 @@
          function="Inventory.DoToSelected"
          parameter="rename" />
     </menu_item_call>
+
     <menu_item_call
+     label="CTS Organizer..."
+     layout="topleft"
+     name="CTS Organizer">
+        <menu_item_call.on_click
+         function="Inventory.DoToSelected"
+         parameter="cts_analyze" />
+    </menu_item_call>    <menu_item_call
      label="Image..."
      layout="topleft"
      name="thumbnail">

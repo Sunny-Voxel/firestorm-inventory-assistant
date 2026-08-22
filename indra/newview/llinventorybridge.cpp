@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 #include "llinventorybridge.h"
 
+#include "fsinventorytools/fsinventoryadapter.h"
 // external projects
 #include "lltransfersourceasset.h"
 #include "llavatarnamecache.h"  // IDEVO
@@ -3929,6 +3930,11 @@ void LLFolderBridge::performAction(LLInventoryModel* model, std::string action)
         return;
     }
     // </FS:MJR> [FIRE-36793]
+    else if ("cts_analyze" == action)
+    {
+        FSInventoryAdapter::analyzeFolder(mUUID);
+        return;
+    }
     else if ("properties" == action)
     {
         showProperties();
@@ -5198,6 +5204,7 @@ void LLFolderBridge::buildContextMenuOptions(U32 flags, menuentry_vec_t&   items
                 }
             }
             items.push_back(std::string("Copy Name")); // <FS:MJR> [FIRE-36793] - Inventory Context Menu - Add "Copy Name"
+        items.push_back(std::string("CTS Organizer"));
         }
 
         if (model->findCategoryUUIDForType(LLFolderType::FT_CURRENT_OUTFIT) == mUUID)

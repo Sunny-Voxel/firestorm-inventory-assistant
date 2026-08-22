@@ -2,8 +2,8 @@
 #include <string>
 #include <vector>
 
-#include "../indra/newview/ctsassistant/ctsplan.h"
-#include "../indra/newview/ctsassistant/ctsproductanalysis.h"
+#include "../indra/newview/fsinventorytools/ctsplan.h"
+#include "../indra/newview/fsinventorytools/ctsproductanalysis.h"
 
 int main()
 {
