@@ -2,7 +2,9 @@
 #define CTS_DESTINATION_PLANNER_H
 
 #include "fsinventoryscan.h"
+#include "ctsitemclassifier.h"
 
+#include <cstddef>
 #include <map>
 #include <string>
 #include <vector>
@@ -11,11 +13,9 @@ struct CTSDestinationPlannedItem
 {
     FSInventoryScannedItem item;
     std::string destination;
-    std::string body;
-    std::string type;
-    std::string color;
-    std::string variant;
-    std::string side;
+    CTSItemClassification classification;
+    bool parkedInAddOn = false;
+    std::string reason;
 };
 
 using CTSDestinationPlan =
@@ -24,15 +24,19 @@ using CTSDestinationPlan =
 class CTSDestinationPlanner
 {
 public:
-    static CTSDestinationPlan build(const FSInventoryScanResult& scan);
+    static CTSDestinationPlan build(
+        const FSInventoryScanResult& scan);
 
 private:
     static std::string chooseDestination(
         const FSInventoryScannedItem& item,
-        const std::string& body,
-        const std::string& type,
-        bool usePartFolders,
-        const std::vector<std::string>& existingFolders);
+        const CTSItemClassification& classification,
+        bool splitVersion,
+        bool splitVariant,
+        std::size_t alphaCount,
+        const std::vector<std::string>& existingFolders,
+        bool& parkedInAddOn,
+        std::string& reason);
 };
 
 #endif

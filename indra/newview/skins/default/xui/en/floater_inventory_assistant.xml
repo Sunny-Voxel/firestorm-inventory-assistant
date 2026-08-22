@@ -14,32 +14,125 @@
  reuse_instance="true"
  title="Inventory Assistant">
 
-    <text left="14" top="28" width="70" height="16">Produkt:</text>
-    <text left="82" top="24" width="800" height="24"
-          follows="top|left|right" font="SansSerifLarge"
-          name="product_text">-</text>
+    <!-- Fast topområde: må aldrig flytte vertikalt ved resize -->
+    <panel
+     follows="top|left|right"
+     height="118"
+     left="0"
+     top="22"
+     width="900"
+     name="header_panel">
 
-    <text left="14" top="68" width="75" height="16">Items</text>
-    <text left="88" top="68" width="50" height="16" name="items_value">0</text>
+        <text
+         follows="top|left"
+         height="18"
+         left="14"
+         top="10"
+         width="70">
+            Product:
+        </text>
 
-    <text left="150" top="68" width="90" height="16">Korrekte</text>
-    <text left="232" top="68" width="50" height="16" name="correct_value">0</text>
+        <text
+         follows="top|left|right"
+         font="SansSerifLarge"
+         height="24"
+         left="82"
+         top="6"
+         width="800"
+         name="product_text">
+            -
+        </text>
 
-    <text left="292" top="68" width="80" height="16">Flyttes</text>
-    <text left="360" top="68" width="50" height="16" name="moves_value">0</text>
+        <text
+         follows="top|left"
+         height="18"
+         left="14"
+         top="54"
+         width="75">
+            Items
+        </text>
+        <text
+         follows="top|left"
+         height="18"
+         left="88"
+         top="54"
+         width="50"
+         name="items_value">
+            0
+        </text>
 
-    <text left="420" top="68" width="95" height="16">Destinationer</text>
-    <text left="515" top="68" width="50" height="16" name="folders_value">0</text>
+        <text
+         follows="top|left"
+         height="18"
+         left="150"
+         top="54"
+         width="90">
+            Correct
+        </text>
+        <text
+         follows="top|left"
+         height="18"
+         left="232"
+         top="54"
+         width="50"
+         name="correct_value">
+            0
+        </text>
 
-    <text left="14" top="96" width="872" height="18"
-          follows="top|left|right" font="SansSerifBold"
-          name="status_text">Klar</text>
+        <text
+         follows="top|left"
+         height="18"
+         left="292"
+         top="54"
+         width="80">
+            Moves
+        </text>
+        <text
+         follows="top|left"
+         height="18"
+         left="360"
+         top="54"
+         width="50"
+         name="moves_value">
+            0
+        </text>
 
+        <text
+         follows="top|left"
+         height="18"
+         left="420"
+         top="54"
+         width="100">
+            Destinations
+        </text>
+        <text
+         follows="top|left"
+         height="18"
+         left="520"
+         top="54"
+         width="50"
+         name="folders_value">
+            0
+        </text>
+
+        <text
+         follows="top|left|right"
+         font="SansSerifBold"
+         height="18"
+         left="14"
+         top="84"
+         width="868"
+         name="status_text">
+            Klar
+        </text>
+    </panel>
+
+    <!-- Arbejdsområde: strækker sig kun mellem top og bund -->
     <scroll_list
-     follows="all"
-     height="420"
+     follows="left|top|right|bottom"
+     height="390"
      left="14"
-     top="128"
+     top="150"
      width="580"
      name="plan_list"
      draw_heading="true"
@@ -47,28 +140,72 @@
         <scroll_list.columns label="Status" name="status" width="78"/>
         <scroll_list.columns label="Destination" name="destination" width="135"/>
         <scroll_list.columns label="Item" name="item" dynamic_width="true"/>
-        <scroll_list.columns label="Fra" name="source" width="130"/>
+        <scroll_list.columns label="From" name="source" width="130"/>
     </scroll_list>
 
     <text_editor
      follows="top|bottom|right"
-     height="420"
+     height="390"
      left="608"
-     top="128"
+     top="150"
      width="278"
      name="details_text"
      read_only="true"
      word_wrap="true"
      max_length="65536"/>
 
-    <button follows="bottom|left" height="24" left="14" top="602"
-            width="95" label="Analyze" name="analyze_btn"/>
-    <button follows="bottom|left" height="24" left="117" top="602"
-            width="95" label="Repair" name="repair_btn"/>
-    <button follows="bottom|left" height="24" left="220" top="602"
-            width="95" label="Organize" name="organize_btn"/>
-    <button follows="bottom|left" height="24" left="323" top="602"
-            width="95" label="Undo" name="undo_btn"/>
-    <button follows="bottom|right" height="24" right="-14" top="602"
-            width="95" label="Close" name="close_btn"/>
+    <!-- Bundområde: bliver altid i bunden -->
+    <button
+     follows="bottom|left"
+     height="24"
+     left="14"
+     top="602"
+     width="95"
+     label="Refresh"
+     name="analyze_btn"/>
+
+    <button
+     follows="bottom|left"
+     height="24"
+     left="117"
+     top="602"
+     width="95"
+     label="Repair"
+     name="repair_btn"/>
+
+    <button
+     follows="bottom|left"
+     height="24"
+     left="220"
+     top="602"
+     width="95"
+     label="Organize"
+     name="organize_btn"/>
+<button
+     follows="bottom|left"
+     height="24"
+     left="426"
+     top="602"
+     width="95"
+     label="Undo"
+     name="undo_btn"/>
+    <button
+     follows="bottom|left"
+     height="24"
+     left="426"
+     top="602"
+     width="95"
+     label="Bodies..."
+     name="bodies_btn"/>
+
+
+    <button
+     follows="bottom|right"
+     height="24"
+     right="-14"
+     top="602"
+     width="95"
+     label="Close"
+     name="close_btn"/>
+
 </floater>
