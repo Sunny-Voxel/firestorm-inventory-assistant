@@ -219,6 +219,27 @@ std::set<std::string> bodyAliasTokens(
         add("B Freya");
         add("Belleza Freya");
     }
+    else if (body == "LeLutka")
+    {
+        add("LeLutka");
+        add("Le Lutka");
+    }
+    else if (body == "CATWA")
+    {
+        add("CATWA");
+    }
+    else if (body == "GENUS")
+    {
+        add("GENUS");
+    }
+    else if (body == "LAQ")
+    {
+        add("LAQ");
+    }
+    else if (body == "Unrigged")
+    {
+        add("Unrigged");
+    }
 
     return result;
 }
@@ -314,8 +335,9 @@ CTSProductPatternAnalyzer::analyze(
 {
     std::map<LLUUID, std::string> result;
 
-    // Work body-by-body. Differences are meaningful only between
-    // siblings that target the same body.
+    // Work target-by-target. Bodies and heads are equal structural
+    // targets. Differences are meaningful only between siblings that
+    // target the same body or head.
     std::map<std::string, std::vector<const FSInventoryScannedItem*>>
         groups;
 
@@ -324,13 +346,20 @@ CTSProductPatternAnalyzer::analyze(
         const auto it =
             classifications.find(item.itemId);
 
-        if (it == classifications.end() ||
-            it->second.body.empty())
-        {
+        if (it == classifications.end())
             continue;
-        }
 
-        groups[it->second.body].push_back(&item);
+        const std::string target =
+            !it->second.body.empty()
+                ? it->second.body
+                : (!it->second.head.empty()
+                    ? it->second.head
+                    : it->second.otherTarget);
+
+        if (target.empty())
+            continue;
+
+        groups[target].push_back(&item);
     }
 
     for (const auto& groupEntry : groups)
@@ -385,7 +414,7 @@ CTSProductPatternAnalyzer::analyze(
                 if (freq != itemFrequency.end() &&
                     freq->second == groupSize)
                 {
-                    // Shared by every item in this body group:
+                    // Shared by every item in this target group:
                     // store/product/color context, not a distinction.
                     continue;
                 }

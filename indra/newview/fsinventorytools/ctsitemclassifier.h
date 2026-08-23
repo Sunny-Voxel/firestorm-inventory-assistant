@@ -14,6 +14,8 @@ enum class CTSConfidence
 struct CTSItemClassification
 {
     std::string body;
+    std::string head;
+    std::string otherTarget;
     std::string type;
     std::string placement;
     std::string side;

@@ -3,35 +3,81 @@
  can_close="true"
  can_minimize="false"
  can_resize="false"
- height="450"
- width="340"
+ height="810"
+ width="390"
  layout="topleft"
  name="inventory_assistant_settings"
- title="Inventory Assistant - Bodies">
+ title="CTS Organizer - Setup">
 
-    <text left="14" top="30" width="312" height="34" word_wrap="true">
-        Select the bodies you use. Recognized bodies that are not selected are kept in Add On.
+    <text left="14" top="28" width="360" height="24" font="SansSerifBold">Bodies</text>
+    <text left="14" top="50" width="360" height="34" word_wrap="true">
+        Select the bodies you use. Recognized bodies that are not selected stay outside per-variant packages.
     </text>
 
-    <check_box left="18" top="78" width="145" height="20" label="Lara X" name="body_larax"/>
-    <check_box left="175" top="78" width="145" height="20" label="Legacy" name="body_legacy"/>
-    <check_box left="18" top="106" width="145" height="20" label="Reborn" name="body_reborn"/>
-    <check_box left="175" top="106" width="145" height="20" label="Lara" name="body_lara"/>
-    <check_box left="18" top="134" width="145" height="20" label="Lara Petite" name="body_larapetite"/>
-    <check_box left="175" top="134" width="145" height="20" label="Freya" name="body_freya"/>
-    <check_box left="18" top="162" width="145" height="20" label="Hourglass" name="body_hourglass"/>
-    <check_box left="175" top="162" width="145" height="20" label="Physique" name="body_physique"/>
-    <check_box left="18" top="190" width="145" height="20" label="SLink Hourglass" name="body_slinkhourglass"/>
-    <check_box left="175" top="190" width="145" height="20" label="SLink Physique" name="body_slinkphysique"/>
-    <check_box left="18" top="218" width="145" height="20" label="Kupra" name="body_kupra"/>
-    <check_box left="175" top="218" width="145" height="20" label="Gen X" name="body_genx"/>
+    <check_box left="18" top="88" width="165" height="20" label="Lara X" name="body_larax"/>
+    <check_box left="200" top="88" width="165" height="20" label="Legacy" name="body_legacy"/>
+    <check_box left="18" top="116" width="165" height="20" label="Reborn" name="body_reborn"/>
+    <check_box left="200" top="116" width="165" height="20" label="Lara" name="body_lara"/>
+    <check_box left="18" top="144" width="165" height="20" label="Lara Petite" name="body_larapetite"/>
+    <check_box left="200" top="144" width="165" height="20" label="Freya" name="body_freya"/>
+    <check_box left="18" top="172" width="165" height="20" label="Hourglass" name="body_hourglass"/>
+    <check_box left="200" top="172" width="165" height="20" label="Physique" name="body_physique"/>
+    <check_box left="18" top="200" width="165" height="20" label="SLink Hourglass" name="body_slinkhourglass"/>
+    <check_box left="200" top="200" width="165" height="20" label="SLink Physique" name="body_slinkphysique"/>
+    <check_box left="18" top="228" width="165" height="20" label="Kupra" name="body_kupra"/>
+    <check_box left="200" top="228" width="165" height="20" label="Gen X" name="body_genx"/>
 
-    <text left="14" top="264" width="312" height="58" word_wrap="true">
-        Unknown bodies are disabled by default. Items without a body can still be organized by type, placement and Left/Right when confidence is sufficient.
+    <view_border left="14" top="264" width="360" height="1"/>
+
+    <text left="14" top="278" width="360" height="24" font="SansSerifBold">Heads</text>
+    <check_box left="18" top="306" width="165" height="20" label="LeLutka" name="head_lelutka"/>
+    <check_box left="200" top="306" width="165" height="20" label="CATWA" name="head_catwa"/>
+    <check_box left="18" top="334" width="165" height="20" label="GENUS" name="head_genus"/>
+    <check_box left="200" top="334" width="165" height="20" label="LAQ" name="head_laq"/>
+
+    <view_border left="14" top="366" width="360" height="1"/>
+
+    <text left="14" top="380" width="360" height="24" font="SansSerifBold">Other</text>
+    <check_box left="18" top="408" width="165" height="20"
+               label="Unrigged" name="target_unrigged"/>
+
+    <view_border left="14" top="440" width="360" height="1"/>
+
+    <text left="14" top="454" width="360" height="24" font="SansSerifBold">Per-variant packages</text>
+    <check_box left="18" top="482" width="350" height="20"
+               label="Create separate main folder for each detected variant"
+               name="split_main_folders"/>
+    <text left="36" top="506" width="334" height="42" word_wrap="true">
+        The original product is kept untouched. Organizer creates one copied package for each detected selected target.
     </text>
 
-    <button follows="bottom|left" left="70" top="398" width="90" height="24"
+    <check_box left="36" top="552" width="320" height="20"
+               label="Create HUD folder in each package"
+               name="split_hud_folder"/>
+    <check_box left="36" top="578" width="320" height="20"
+               label="Create Alpha folder in each package"
+               name="split_alpha_folder"/>
+    <text left="36" top="602" width="334" height="38" word_wrap="true">
+        If HUD or Alpha is unchecked, those shared items are copied directly into each target folder.
+    </text>
+
+    <view_border left="14" top="646" width="360" height="1"/>
+
+    <text left="14" top="660" width="360" height="22" font="SansSerifBold">Folder names</text>
+
+    <text left="18" top="690" width="70" height="20">HUD</text>
+    <line_editor left="86" top="686" width="90" height="24" name="hud_folder_name"/>
+
+    <text left="198" top="690" width="70" height="20">Alpha</text>
+    <line_editor left="260" top="686" width="105" height="24" name="alpha_folder_name"/>
+
+    <text left="18" top="722" width="70" height="20">Add On</text>
+    <line_editor left="86" top="718" width="150" height="24" name="addon_folder_name"/>
+
+    <view_border left="14" top="754" width="360" height="1"/>
+
+    <button follows="bottom|left" left="92" top="770" width="90" height="24"
             label="Save" name="save_btn"/>
-    <button follows="bottom|right" left="180" top="398" width="90" height="24"
+    <button follows="bottom|right" left="208" top="770" width="90" height="24"
             label="Cancel" name="cancel_btn"/>
 </floater>

@@ -199,8 +199,62 @@ CTSItemClassification CTSItemClassifier::classify(const std::string& itemName)
     if (!result.body.empty())
         addSignal(result, "body=" + result.body, 35);
 
+    const std::vector<std::pair<std::string, std::string>> heads =
+    {
+        {"le lutka", "LeLutka"},
+        {"lelutka", "LeLutka"},
+        {"catwa", "CATWA"},
+        {"genus", "GENUS"},
+        {"laq", "LAQ"}
+    };
+
+    result.head = findFirst(name, heads);
+    if (!result.head.empty())
+        addSignal(result, "head=" + result.head, 35);
+
+    if (containsPhrase(name, "unrigged"))
+    {
+        result.otherTarget = "Unrigged";
+        addSignal(result, "otherTarget=" + result.otherTarget, 35);
+    }
+
     const std::vector<std::pair<std::string, std::string>> types =
     {
+        // HOOP_EARRINGS_0021I
+        // Specific accessory names must come before generic terms.
+        {"hoop earrings", "Hoop Earrings"},
+        {"hoop earring", "Hoop Earrings"},
+        {"earrings", "Earrings"},
+        {"earring", "Earrings"},
+        // HEAD_CONTENT_TYPES_0021G
+        // Most specific head-content phrases first.
+        {"eye shadow", "Eyeshadow"},
+        {"eyeshadow", "Eyeshadow"},
+        {"eye liner", "Eyeliner"},
+        {"eyeliner", "Eyeliner"},
+        {"lip gloss", "Lip Gloss"},
+        {"lipgloss", "Lip Gloss"},
+        {"lip stick", "Lipstick"},
+        {"lipstick", "Lipstick"},
+        {"eyebrows", "Brows"},
+        {"eyebrow", "Brows"},
+        {"brows", "Brows"},
+        {"brow", "Brows"},
+        {"eyelashes", "Lashes"},
+        {"eyelash", "Lashes"},
+        {"lashes", "Lashes"},
+        {"lash", "Lashes"},
+        {"hair base", "Hairbase"},
+        {"hairbase", "Hairbase"},
+        {"make up", "Makeup"},
+        {"makeup", "Makeup"},
+        {"freckles", "Freckles"},
+        {"freckle", "Freckles"},
+        {"blush", "Blush"},
+        {"lips", "Lips"},
+        {"lip", "Lips"},
+        {"eyes", "Eyes"},
+        {"eye", "Eyes"},
         {"body", "Body"},
         {"bikini thong", "Thong"},
         {"bikinithong", "Thong"},
@@ -293,6 +347,12 @@ CTSItemClassification CTSItemClassifier::classify(const std::string& itemName)
     // Semantic variants. Most specific phrases must come first.
     const std::vector<std::pair<std::string, std::string>> variants =
     {
+        // LARGE_VARIANT_0021I
+        {"extra large", "Extra Large"},
+        {"xlarge", "Extra Large"},
+        {"x large", "Extra Large"},
+        {"large", "Large"},
+        {"small", "Small"},
         {"animalistic ver", "Animalistic"},
         {"animalistic", "Animalistic"},
         {"xtra shine", "Xtra Shine"},

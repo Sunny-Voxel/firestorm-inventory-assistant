@@ -1696,5 +1696,85 @@
         <integer>0</integer>
     </map>
 
+
+    <key>FSInventoryAssistantSplitMainFolders</key>
+    <map>
+        <key>Comment</key><string>Create one copied product package per selected body.</string>
+        <key>Persist</key><integer>1</integer>
+        <key>Type</key><string>Boolean</string>
+        <key>Value</key><integer>0</integer>
+    </map>
+    <key>FSInventoryAssistantSplitHUDFolder</key>
+    <map>
+        <key>Comment</key><string>Create a HUD subfolder in each per-body package.</string>
+        <key>Persist</key><integer>1</integer>
+        <key>Type</key><string>Boolean</string>
+        <key>Value</key><integer>1</integer>
+    </map>
+    <key>FSInventoryAssistantSplitAlphaFolder</key>
+    <map>
+        <key>Comment</key><string>Create an Alpha subfolder in each per-body package.</string>
+        <key>Persist</key><integer>1</integer>
+        <key>Type</key><string>Boolean</string>
+        <key>Value</key><integer>1</integer>
+    </map>
+    <key>FSInventoryAssistantHUDFolderName</key>
+    <map>
+        <key>Comment</key><string>Folder name used for HUD items.</string>
+        <key>Persist</key><integer>1</integer>
+        <key>Type</key><string>String</string>
+        <key>Value</key><string>HUD</string>
+    </map>
+    <key>FSInventoryAssistantAlphaFolderName</key>
+    <map>
+        <key>Comment</key><string>Folder name used for Alpha items.</string>
+        <key>Persist</key><integer>1</integer>
+        <key>Type</key><string>String</string>
+        <key>Value</key><string>Alpha</string>
+    </map>
+    <key>FSInventoryAssistantAddOnFolderName</key>
+    <map>
+        <key>Comment</key><string>Folder name used for Add On items.</string>
+        <key>Persist</key><integer>1</integer>
+        <key>Type</key><string>String</string>
+        <key>Value</key><string>Add On</string>
+    </map>
+
+    <key>FSInventoryAssistantHeadLeLutka</key>
+    <map>
+        <key>Comment</key><string>Use LeLutka head target.</string>
+        <key>Persist</key><integer>1</integer>
+        <key>Type</key><string>Boolean</string>
+        <key>Value</key><integer>1</integer>
+    </map>
+    <key>FSInventoryAssistantHeadCATWA</key>
+    <map>
+        <key>Comment</key><string>Use CATWA head target.</string>
+        <key>Persist</key><integer>1</integer>
+        <key>Type</key><string>Boolean</string>
+        <key>Value</key><integer>1</integer>
+    </map>
+    <key>FSInventoryAssistantHeadGENUS</key>
+    <map>
+        <key>Comment</key><string>Use GENUS head target.</string>
+        <key>Persist</key><integer>1</integer>
+        <key>Type</key><string>Boolean</string>
+        <key>Value</key><integer>1</integer>
+    </map>
+    <key>FSInventoryAssistantHeadLAQ</key>
+    <map>
+        <key>Comment</key><string>Use LAQ head target.</string>
+        <key>Persist</key><integer>1</integer>
+        <key>Type</key><string>Boolean</string>
+        <key>Value</key><integer>1</integer>
+    </map>
+
+    <key>FSInventoryAssistantTargetUnrigged</key>
+    <map>
+        <key>Comment</key><string>Use Unrigged as an organizer target.</string>
+        <key>Persist</key><integer>1</integer>
+        <key>Type</key><string>Boolean</string>
+        <key>Value</key><integer>0</integer>
+    </map>
     </map>
 </llsd>

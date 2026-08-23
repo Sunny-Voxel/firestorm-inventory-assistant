@@ -105,9 +105,42 @@ CTSDestinationPlan CTSDestinationPlanner::build(
             continue;
         }
 
-        // A recognized but disabled body always stays in Add On.
-        if (!c.body.empty() &&
-            !CTSBodySettings::isEnabled(c.body))
+        // CTS_FORCE_ADDON_0021L
+        // Items explicitly classified as Add On by CTSRules must never
+        // create semantic folders. This includes product AD/preview images.
+        if (item.destination == "Add On" &&
+            c.body.empty() &&
+            c.head.empty() &&
+            c.otherTarget.empty())
+        {
+            planned.destination =
+                findExistingFolder(
+                    scan.existingFolderNames,
+                    "Add On");
+
+            if (planned.destination.empty())
+                planned.destination = "Add On";
+
+            planned.parkedInAddOn = true;
+            planned.reason = "Explicit Add On rule";
+
+            plan[planned.destination]
+                .push_back(planned);
+            continue;
+        }
+
+        // Bodies, heads and optional Other targets are equal
+        // structural targets.
+        const std::string structuralTarget =
+            !c.body.empty()
+                ? c.body
+                : (!c.head.empty()
+                    ? c.head
+                    : c.otherTarget);
+
+        // A recognized but disabled target always stays in Add On.
+        if (!structuralTarget.empty() &&
+            !CTSBodySettings::isTargetEnabled(structuralTarget))
         {
             planned.destination =
                 findExistingFolder(
@@ -119,18 +152,18 @@ CTSDestinationPlan CTSDestinationPlanner::build(
 
             planned.parkedInAddOn = true;
             planned.reason =
-                "Body disabled: " + c.body;
+                "Target disabled: " + structuralTarget;
 
             plan[planned.destination]
                 .push_back(planned);
             continue;
         }
 
-        // Recognized + enabled body: use body as the base and
-        // append only what distinguishes sibling items.
-        if (!c.body.empty())
+        // Recognized + enabled body/head: use the target as the base
+        // and append what distinguishes sibling items.
+        if (!structuralTarget.empty())
         {
-            std::string wanted = c.body;
+            std::string wanted = structuralTarget;
 
             const auto descriptor =
                 patternDescriptors.find(
@@ -173,7 +206,7 @@ CTSDestinationPlan CTSDestinationPlanner::build(
             continue;
         }
 
-        // No recognized body: preserve the conservative v1 behavior.
+        // No recognized body/head: preserve the conservative v1 behavior.
         // Unknown/readme/store items do not get invented destinations.
         if (c.confidence == CTSConfidence::Low)
         {

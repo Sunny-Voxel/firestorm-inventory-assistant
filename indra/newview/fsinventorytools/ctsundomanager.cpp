@@ -16,7 +16,8 @@ void CTSUndoManager::setLastTransaction(const CTSUndoTransaction& transaction)
     mHasTransaction =
         !transaction.moves.empty() ||
         !transaction.renames.empty() ||
-        !transaction.removedSourceFolders.empty();
+        !transaction.removedSourceFolders.empty() ||
+        !transaction.createdRootFolderIds.empty();
 
     LL_INFOS("FSInventoryTools")
         << "Undo transaction saved: moves="
@@ -53,6 +54,20 @@ void CTSUndoManager::undo(completion_func_t completion)
         result.message = "Der er ingen gemt handling at fortryde.";
         if (completion) completion(result);
         return;
+    }
+
+    // CTS_SPLIT_UNDO_0021
+    // Split mode leaves the original untouched. Undo removes generated roots.
+    for (auto it = mLastTransaction.createdRootFolderIds.rbegin();
+         it != mLastTransaction.createdRootFolderIds.rend();
+         ++it)
+    {
+        LLViewerInventoryCategory* root = gInventory.getCategory(*it);
+        if (!root)
+            continue;
+
+        gInventory.removeCategory(*it);
+        ++result.foldersRemoved;
     }
 
     for (const CTSRemovedSourceFolder& removed :

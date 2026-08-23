@@ -17,9 +17,49 @@ static std::string toLower(std::string value)
     return value;
 }
 
+static bool containsToken(
+    const std::string& value,
+    const std::string& token)
+{
+    std::size_t pos = 0;
+    while ((pos = value.find(token, pos)) != std::string::npos)
+    {
+        const bool leftOk =
+            pos == 0 ||
+            !std::isalnum(
+                static_cast<unsigned char>(value[pos - 1]));
+
+        const std::size_t end = pos + token.size();
+        const bool rightOk =
+            end >= value.size() ||
+            !std::isalnum(
+                static_cast<unsigned char>(value[end]));
+
+        if (leftOk && rightOk)
+            return true;
+
+        ++pos;
+    }
+
+    return false;
+}
+
 std::string CTSRules::classifyItem(const std::string& itemName)
 {
     const std::string name = toLower(itemName);
+
+    // CTS_ALWAYS_ADDON_AD_0021J
+    // Product advertising/preview image token: always Add On.
+    if (containsToken(name, "ad"))
+        return "Add On";
+
+    // CTS_SPECIAL_SHARED_0021
+    // HUD/Alpha are shared structural items, even if a body word is also present.
+    if (name.find("hud") != std::string::npos)
+        return "HUD";
+
+    if (name.find("alpha") != std::string::npos)
+        return "Alpha";
 
     // Mest specifikke regler først
 
@@ -102,9 +142,6 @@ std::string CTSRules::classifyItem(const std::string& itemName)
 
     if (name.find("vtech") != std::string::npos)
         return "VTech";
-
-    if (name.find("hud") != std::string::npos)
-        return "HUD";
 
     return "Add On";
 }

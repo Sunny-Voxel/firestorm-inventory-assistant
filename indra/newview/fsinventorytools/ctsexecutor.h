@@ -16,6 +16,7 @@ struct CTSExecutionResult
     bool success = false;
     std::size_t foldersCreated = 0;
     std::size_t itemsMoved = 0;
+    std::size_t itemsCopied = 0;
     std::string message;
 };
 

@@ -1,9 +1,9 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llfloaterinventoryassistantsettings.h"
-
 #include "llbutton.h"
 #include "llcheckboxctrl.h"
+#include "lllineeditor.h"
 #include "llviewercontrol.h"
 
 namespace
@@ -27,8 +27,18 @@ const BodyControl BODY_CONTROLS[] =
     {"FSInventoryAssistantBodySLinkHourglass", "body_slinkhourglass"},
     {"FSInventoryAssistantBodySLinkPhysique", "body_slinkphysique"},
     {"FSInventoryAssistantBodyKupra", "body_kupra"},
-    {"FSInventoryAssistantBodyGenX", "body_genx"}
+    {"FSInventoryAssistantBodyGenX", "body_genx"},
+    {"FSInventoryAssistantHeadLeLutka", "head_lelutka"},
+    {"FSInventoryAssistantHeadCATWA", "head_catwa"},
+    {"FSInventoryAssistantHeadGENUS", "head_genus"},
+    {"FSInventoryAssistantHeadLAQ", "head_laq"},
+    {"FSInventoryAssistantTargetUnrigged", "target_unrigged"}
 };
+
+std::string nonEmpty(const std::string& value, const char* fallback)
+{
+    return value.empty() ? std::string(fallback) : value;
+}
 }
 
 LLFloaterInventoryAssistantSettings::
@@ -60,6 +70,20 @@ void LLFloaterInventoryAssistantSettings::loadSettings()
         getChild<LLCheckBoxCtrl>(body.control)->setValue(
             gSavedPerAccountSettings.getBOOL(body.setting));
     }
+
+    getChild<LLCheckBoxCtrl>("split_main_folders")->setValue(
+        gSavedPerAccountSettings.getBOOL("FSInventoryAssistantSplitMainFolders"));
+    getChild<LLCheckBoxCtrl>("split_hud_folder")->setValue(
+        gSavedPerAccountSettings.getBOOL("FSInventoryAssistantSplitHUDFolder"));
+    getChild<LLCheckBoxCtrl>("split_alpha_folder")->setValue(
+        gSavedPerAccountSettings.getBOOL("FSInventoryAssistantSplitAlphaFolder"));
+
+    getChild<LLLineEditor>("hud_folder_name")->setText(
+        nonEmpty(gSavedPerAccountSettings.getString("FSInventoryAssistantHUDFolderName"), "HUD"));
+    getChild<LLLineEditor>("alpha_folder_name")->setText(
+        nonEmpty(gSavedPerAccountSettings.getString("FSInventoryAssistantAlphaFolderName"), "Alpha"));
+    getChild<LLLineEditor>("addon_folder_name")->setText(
+        nonEmpty(gSavedPerAccountSettings.getString("FSInventoryAssistantAddOnFolderName"), "Add On"));
 }
 
 void LLFloaterInventoryAssistantSettings::saveSettings()
@@ -70,6 +94,26 @@ void LLFloaterInventoryAssistantSettings::saveSettings()
             body.setting,
             getChild<LLCheckBoxCtrl>(body.control)->getValue().asBoolean());
     }
+
+    gSavedPerAccountSettings.setBOOL(
+        "FSInventoryAssistantSplitMainFolders",
+        getChild<LLCheckBoxCtrl>("split_main_folders")->getValue().asBoolean());
+    gSavedPerAccountSettings.setBOOL(
+        "FSInventoryAssistantSplitHUDFolder",
+        getChild<LLCheckBoxCtrl>("split_hud_folder")->getValue().asBoolean());
+    gSavedPerAccountSettings.setBOOL(
+        "FSInventoryAssistantSplitAlphaFolder",
+        getChild<LLCheckBoxCtrl>("split_alpha_folder")->getValue().asBoolean());
+
+    gSavedPerAccountSettings.setString(
+        "FSInventoryAssistantHUDFolderName",
+        nonEmpty(getChild<LLLineEditor>("hud_folder_name")->getText(), "HUD"));
+    gSavedPerAccountSettings.setString(
+        "FSInventoryAssistantAlphaFolderName",
+        nonEmpty(getChild<LLLineEditor>("alpha_folder_name")->getText(), "Alpha"));
+    gSavedPerAccountSettings.setString(
+        "FSInventoryAssistantAddOnFolderName",
+        nonEmpty(getChild<LLLineEditor>("addon_folder_name")->getText(), "Add On"));
 }
 
 void LLFloaterInventoryAssistantSettings::onSaveClicked()

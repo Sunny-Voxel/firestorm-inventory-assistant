@@ -506,6 +506,7 @@ set(viewer_SOURCE_FILES
     fsinventorytools/ctsbodysettings.cpp
     fsinventorytools/ctsexecutionplan.cpp
     fsinventorytools/ctsexecutor.cpp
+    fsinventorytools/ctssplitexecutor.cpp
     fsinventorytools/ctsundomanager.cpp
     fsinventorytools/ctsproductanalysis.cpp
     fsinventorytools/fsinventoryscan.cpp
@@ -1386,6 +1387,7 @@ set(viewer_HEADER_FILES
     fsinventorytools/ctsbodysettings.h
     fsinventorytools/ctsexecutionplan.h
     fsinventorytools/ctsexecutor.h
+    fsinventorytools/ctssplitexecutor.h
     fsinventorytools/ctsundomanager.h
     fsinventorytools/ctsproductanalysis.h
     fsinventorytools/ctsrules.h

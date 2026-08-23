@@ -36,6 +36,7 @@ struct CTSUndoTransaction
     std::vector<CTSUndoMove> moves;
     std::vector<CTSUndoRename> renames;
     std::vector<LLUUID> createdFolderIds;
+    std::vector<LLUUID> createdRootFolderIds;
     std::vector<CTSRemovedSourceFolder> removedSourceFolders;
 };
 
