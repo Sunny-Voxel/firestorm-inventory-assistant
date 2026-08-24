@@ -1,83 +1,59 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<floater
- can_close="true"
- can_minimize="false"
- can_resize="false"
- height="810"
- width="390"
- layout="topleft"
- name="inventory_assistant_settings"
- title="CTS Organizer - Setup">
-
-    <text left="14" top="28" width="360" height="24" font="SansSerifBold">Bodies</text>
-    <text left="14" top="50" width="360" height="34" word_wrap="true">
-        Select the bodies you use. Recognized bodies that are not selected stay outside per-variant packages.
-    </text>
-
-    <check_box left="18" top="88" width="165" height="20" label="Lara X" name="body_larax"/>
-    <check_box left="200" top="88" width="165" height="20" label="Legacy" name="body_legacy"/>
-    <check_box left="18" top="116" width="165" height="20" label="Reborn" name="body_reborn"/>
-    <check_box left="200" top="116" width="165" height="20" label="Lara" name="body_lara"/>
-    <check_box left="18" top="144" width="165" height="20" label="Lara Petite" name="body_larapetite"/>
-    <check_box left="200" top="144" width="165" height="20" label="Freya" name="body_freya"/>
-    <check_box left="18" top="172" width="165" height="20" label="Hourglass" name="body_hourglass"/>
-    <check_box left="200" top="172" width="165" height="20" label="Physique" name="body_physique"/>
-    <check_box left="18" top="200" width="165" height="20" label="SLink Hourglass" name="body_slinkhourglass"/>
-    <check_box left="200" top="200" width="165" height="20" label="SLink Physique" name="body_slinkphysique"/>
-    <check_box left="18" top="228" width="165" height="20" label="Kupra" name="body_kupra"/>
-    <check_box left="200" top="228" width="165" height="20" label="Gen X" name="body_genx"/>
-
-    <view_border left="14" top="264" width="360" height="1"/>
-
-    <text left="14" top="278" width="360" height="24" font="SansSerifBold">Heads</text>
-    <check_box left="18" top="306" width="165" height="20" label="LeLutka" name="head_lelutka"/>
-    <check_box left="200" top="306" width="165" height="20" label="CATWA" name="head_catwa"/>
-    <check_box left="18" top="334" width="165" height="20" label="GENUS" name="head_genus"/>
-    <check_box left="200" top="334" width="165" height="20" label="LAQ" name="head_laq"/>
-
-    <view_border left="14" top="366" width="360" height="1"/>
-
-    <text left="14" top="380" width="360" height="24" font="SansSerifBold">Other</text>
-    <check_box left="18" top="408" width="165" height="20"
-               label="Unrigged" name="target_unrigged"/>
-
-    <view_border left="14" top="440" width="360" height="1"/>
-
-    <text left="14" top="454" width="360" height="24" font="SansSerifBold">Per-variant packages</text>
-    <check_box left="18" top="482" width="350" height="20"
-               label="Create separate main folder for each detected variant"
-               name="split_main_folders"/>
-    <text left="36" top="506" width="334" height="42" word_wrap="true">
-        The original product is kept untouched. Organizer creates one copied package for each detected selected target.
-    </text>
-
-    <check_box left="36" top="552" width="320" height="20"
-               label="Create HUD folder in each package"
-               name="split_hud_folder"/>
-    <check_box left="36" top="578" width="320" height="20"
-               label="Create Alpha folder in each package"
-               name="split_alpha_folder"/>
-    <text left="36" top="602" width="334" height="38" word_wrap="true">
-        If HUD or Alpha is unchecked, those shared items are copied directly into each target folder.
-    </text>
-
-    <view_border left="14" top="646" width="360" height="1"/>
-
-    <text left="14" top="660" width="360" height="22" font="SansSerifBold">Folder names</text>
-
-    <text left="18" top="690" width="70" height="20">HUD</text>
-    <line_editor left="86" top="686" width="90" height="24" name="hud_folder_name"/>
-
-    <text left="198" top="690" width="70" height="20">Alpha</text>
-    <line_editor left="260" top="686" width="105" height="24" name="alpha_folder_name"/>
-
-    <text left="18" top="722" width="70" height="20">Add On</text>
-    <line_editor left="86" top="718" width="150" height="24" name="addon_folder_name"/>
-
-    <view_border left="14" top="754" width="360" height="1"/>
-
-    <button follows="bottom|left" left="92" top="770" width="90" height="24"
-            label="Save" name="save_btn"/>
-    <button follows="bottom|right" left="208" top="770" width="90" height="24"
-            label="Cancel" name="cancel_btn"/>
+<floater can_close="true" can_minimize="false" can_resize="true" min_width="1240" min_height="720" height="800" width="1420" layout="topleft" name="inventory_assistant_settings" title="CTS Organizer - Settings">
+ <text left="24" top="42" width="330" height="24" font="SansSerifBold">Targets</text>
+ <text left="24" top="66" width="660" height="22">Select the targets you use. Automatic filtering uses the current avatar shape sex.</text>
+ <check_box left="24" top="92" width="520" height="20" label="Automatically filter body targets using avatar shape sex" name="auto_body_gender"/>
+ <text left="24" top="130" width="330" height="22" font="SansSerifBold">Female bodies</text>
+ <check_box left="24" top="158" width="150" height="20" label="Lara X" name="body_larax"/><check_box left="184" top="158" width="150" height="20" label="Reborn" name="body_reborn"/>
+ <check_box left="24" top="184" width="150" height="20" label="Lara" name="body_lara"/><check_box left="184" top="184" width="150" height="20" label="Lara Petite" name="body_larapetite"/>
+ <check_box left="24" top="210" width="150" height="20" label="Freya" name="body_freya"/><check_box left="184" top="210" width="150" height="20" label="Hourglass" name="body_hourglass"/>
+ <check_box left="24" top="236" width="150" height="20" label="Physique" name="body_physique"/><check_box left="184" top="236" width="150" height="20" label="SLink Hourglass" name="body_slinkhourglass"/>
+ <check_box left="24" top="262" width="150" height="20" label="SLink Physique" name="body_slinkphysique"/><check_box left="184" top="262" width="150" height="20" label="Kupra" name="body_kupra"/>
+ <check_box left="24" top="288" width="150" height="20" label="Gen X" name="body_genx"/><check_box left="184" top="288" width="150" height="20" label="Erika" name="body_erika"/>
+ <text left="24" top="326" width="330" height="22" font="SansSerifBold">Shared / unisex bodies</text><check_box left="24" top="354" width="150" height="20" label="Legacy" name="body_legacy"/>
+ <text left="24" top="392" width="330" height="22" font="SansSerifBold">Male bodies</text>
+ <check_box left="24" top="420" width="150" height="20" label="Legacy Male" name="body_legacymale"/><check_box left="184" top="420" width="150" height="20" label="Jake" name="body_jake"/>
+ <check_box left="24" top="446" width="150" height="20" label="Gianni" name="body_gianni"/><check_box left="184" top="446" width="150" height="20" label="Kario" name="body_kario"/>
+ <view_border left="385" top="126" width="1" height="535"/>
+ <text left="415" top="130" width="300" height="22" font="SansSerifBold">Heads</text>
+ <check_box left="415" top="158" width="135" height="20" label="LeLutka" name="head_lelutka"/><check_box left="570" top="158" width="135" height="20" label="CATWA" name="head_catwa"/>
+ <check_box left="415" top="184" width="135" height="20" label="GENUS" name="head_genus"/><check_box left="570" top="184" width="135" height="20" label="LAQ" name="head_laq"/>
+ <text left="415" top="226" width="300" height="22" font="SansSerifBold">Other targets</text><check_box left="415" top="254" width="180" height="20" label="Unrigged" name="target_unrigged"/>
+ <text left="415" top="300" width="300" height="22" font="SansSerifBold">Per-variant packages</text>
+ <check_box left="415" top="328" width="310" height="20" label="Create separate main folder for each detected variant" name="split_main_folders"/>
+ <check_box left="415" top="356" width="280" height="20" label="Create HUD folder in each package" name="split_hud_folder"/>
+ <check_box left="415" top="384" width="280" height="20" label="Create Alpha folder in each package" name="split_alpha_folder"/>
+ <text left="415" top="430" width="300" height="22" font="SansSerifBold">Shared folder names</text>
+ <text left="415" top="462" width="55" height="20">HUD</text><line_editor left="490" top="458" width="180" height="24" name="hud_folder_name"/>
+ <text left="415" top="494" width="55" height="20">Alpha</text><line_editor left="490" top="490" width="180" height="24" name="alpha_folder_name"/>
+ <text left="415" top="526" width="55" height="20">Add On</text><line_editor left="490" top="522" width="180" height="24" name="addon_folder_name"/>
+ <view_border left="765" top="126" width="1" height="535"/>
+ <text left="795" top="130" width="350" height="22" font="SansSerifBold">Folder naming</text>
+ <text left="795" top="154" width="575" height="34" word_wrap="true">Choose CTS matrix naming or let CTS Organizer build folder names automatically.</text>
+ <radio_group left="795" top="194" width="575" height="52" name="folder_naming_mode"><radio_item label="CTS Premium / Matrix" name="custom" value="custom"/><radio_item label="CTS Organizer / Automatic" name="descriptive" value="descriptive"/></radio_group>
+ <text left="795" top="258" width="125" height="20">Automatic suffix</text><line_editor left="925" top="254" width="205" height="24" name="descriptive_suffix"/><text left="1145" top="258" width="180" height="20">e.g. Top, Pants</text>
+ <text left="795" top="302" width="575" height="22" font="SansSerifBold">Matrix: detected target → subfolder</text>
+ <text left="795" top="338" width="120" height="20">Lara X</text><line_editor left="920" top="334" width="165" height="24" name="folder_larax"/>
+ <text left="1110" top="338" width="130" height="20">Reborn</text><line_editor left="1245" top="334" width="145" height="24" name="folder_reborn"/>
+ <text left="795" top="370" width="120" height="20">Lara</text><line_editor left="920" top="366" width="165" height="24" name="folder_lara"/>
+ <text left="1110" top="370" width="130" height="20">Lara Petite</text><line_editor left="1245" top="366" width="145" height="24" name="folder_larapetite"/>
+ <text left="795" top="402" width="120" height="20">Freya</text><line_editor left="920" top="398" width="165" height="24" name="folder_freya"/>
+ <text left="1110" top="402" width="130" height="20">Hourglass</text><line_editor left="1245" top="398" width="145" height="24" name="folder_hourglass"/>
+ <text left="795" top="434" width="120" height="20">Physique</text><line_editor left="920" top="430" width="165" height="24" name="folder_physique"/>
+ <text left="1110" top="434" width="130" height="20">SLink Hourglass</text><line_editor left="1245" top="430" width="145" height="24" name="folder_slinkhourglass"/>
+ <text left="795" top="466" width="120" height="20">SLink Physique</text><line_editor left="920" top="462" width="165" height="24" name="folder_slinkphysique"/>
+ <text left="1110" top="466" width="130" height="20">Kupra</text><line_editor left="1245" top="462" width="145" height="24" name="folder_kupra"/>
+ <text left="795" top="498" width="120" height="20">Gen X</text><line_editor left="920" top="494" width="165" height="24" name="folder_genx"/>
+ <text left="1110" top="498" width="130" height="20">Erika</text><line_editor left="1245" top="494" width="145" height="24" name="folder_erika"/>
+ <text left="795" top="530" width="120" height="20">Legacy</text><line_editor left="920" top="526" width="165" height="24" name="folder_legacy"/>
+ <text left="1110" top="530" width="130" height="20">Legacy Male</text><line_editor left="1245" top="526" width="145" height="24" name="folder_legacymale"/>
+ <text left="795" top="562" width="120" height="20">Jake</text><line_editor left="920" top="558" width="165" height="24" name="folder_jake"/>
+ <text left="1110" top="562" width="130" height="20">Gianni</text><line_editor left="1245" top="558" width="145" height="24" name="folder_gianni"/>
+ <text left="795" top="594" width="120" height="20">Kario</text><line_editor left="920" top="590" width="165" height="24" name="folder_kario"/>
+ <text left="1110" top="594" width="130" height="20">LeLutka</text><line_editor left="1245" top="590" width="145" height="24" name="folder_lelutka"/>
+ <text left="795" top="626" width="120" height="20">CATWA</text><line_editor left="920" top="622" width="165" height="24" name="folder_catwa"/>
+ <text left="1110" top="626" width="130" height="20">GENUS</text><line_editor left="1245" top="622" width="145" height="24" name="folder_genus"/>
+ <text left="795" top="658" width="120" height="20">LAQ</text><line_editor left="920" top="654" width="165" height="24" name="folder_laq"/>
+ <text left="1110" top="658" width="130" height="20">Unrigged</text><line_editor left="1245" top="654" width="145" height="24" name="folder_unrigged"/>
+<button follows="bottom|left" left="610" bottom="18" width="95" height="26" label="Save" name="save_btn"/><button follows="bottom|left" left="725" bottom="18" width="95" height="26" label="Cancel" name="cancel_btn"/>
 </floater>

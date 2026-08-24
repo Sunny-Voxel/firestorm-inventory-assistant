@@ -61,6 +61,11 @@ std::string findLooseBody(const std::string& original)
 
     const std::vector<std::pair<std::string, std::string>> aliases =
     {
+        {"legacy male", "Legacy Male"},
+        {"legacy m", "Legacy Male"},
+        {"belleza jake", "Jake"},
+        {"signature gianni", "Gianni"},
+        {"inithium kario", "Kario"},
         {"maitreya lara x", "Lara X"},
         {"larax", "Lara X"},
         {"lara petite", "Lara Petite"},
@@ -68,6 +73,9 @@ std::string findLooseBody(const std::string& original)
         {"slinkhourglass", "SLink Hourglass"},
         {"slinkphysique", "SLink Physique"},
         {"maitreya", "Lara"},
+        {"jake", "Jake"},
+        {"gianni", "Gianni"},
+        {"kario", "Kario"},
         {"legacy", "Legacy"},
         {"reborn", "Reborn"},
         {"kupra", "Kupra"},
@@ -168,6 +176,11 @@ CTSItemClassification CTSItemClassifier::classify(const std::string& itemName)
 
     const std::vector<std::pair<std::string, std::string>> bodies =
     {
+        {"legacy male", "Legacy Male"},
+        {"legacy m", "Legacy Male"},
+        {"belleza jake", "Jake"},
+        {"signature gianni", "Gianni"},
+        {"inithium kario", "Kario"},
         {"maitreya lara x", "Lara X"},
         {"lara x", "Lara X"},
         {"lara petite", "Lara Petite"},
@@ -180,6 +193,10 @@ CTSItemClassification CTSItemClassifier::classify(const std::string& itemName)
         {"b freya", "Freya"},
         {"vtech", "VTech"},
         {"gen x", "Gen X"},
+        {"erika", "Erika"},
+        {"jake", "Jake"},
+        {"gianni", "Gianni"},
+        {"kario", "Kario"},
         {"legacy", "Legacy"},
         {"reborn", "Reborn"},
         {"freya", "Freya"},

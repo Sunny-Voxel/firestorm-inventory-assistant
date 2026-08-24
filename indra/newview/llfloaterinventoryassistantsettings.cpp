@@ -4,6 +4,7 @@
 #include "llbutton.h"
 #include "llcheckboxctrl.h"
 #include "lllineeditor.h"
+#include "llradiogroup.h"
 #include "llviewercontrol.h"
 
 namespace
@@ -12,6 +13,13 @@ struct BodyControl
 {
     const char* setting;
     const char* control;
+};
+
+struct FolderNameControl
+{
+    const char* setting;
+    const char* control;
+    const char* fallback;
 };
 
 const BodyControl BODY_CONTROLS[] =
@@ -28,11 +36,42 @@ const BodyControl BODY_CONTROLS[] =
     {"FSInventoryAssistantBodySLinkPhysique", "body_slinkphysique"},
     {"FSInventoryAssistantBodyKupra", "body_kupra"},
     {"FSInventoryAssistantBodyGenX", "body_genx"},
+    {"FSInventoryAssistantBodyErika", "body_erika"},
+    {"FSInventoryAssistantBodyLegacyMale", "body_legacymale"},
+    {"FSInventoryAssistantBodyJake", "body_jake"},
+    {"FSInventoryAssistantBodyGianni", "body_gianni"},
+    {"FSInventoryAssistantBodyKario", "body_kario"},
     {"FSInventoryAssistantHeadLeLutka", "head_lelutka"},
     {"FSInventoryAssistantHeadCATWA", "head_catwa"},
     {"FSInventoryAssistantHeadGENUS", "head_genus"},
     {"FSInventoryAssistantHeadLAQ", "head_laq"},
     {"FSInventoryAssistantTargetUnrigged", "target_unrigged"}
+};
+
+const FolderNameControl FOLDER_NAME_CONTROLS[] =
+{
+    {"FSInventoryAssistantFolderNameLaraX", "folder_larax", "Lara X"},
+    {"FSInventoryAssistantFolderNameLegacy", "folder_legacy", "Legacy"},
+    {"FSInventoryAssistantFolderNameReborn", "folder_reborn", "Reborn"},
+    {"FSInventoryAssistantFolderNameLara", "folder_lara", "Lara"},
+    {"FSInventoryAssistantFolderNameLaraPetite", "folder_larapetite", "Lara Petite"},
+    {"FSInventoryAssistantFolderNameFreya", "folder_freya", "Freya"},
+    {"FSInventoryAssistantFolderNameHourglass", "folder_hourglass", "Hourglass"},
+    {"FSInventoryAssistantFolderNamePhysique", "folder_physique", "Physique"},
+    {"FSInventoryAssistantFolderNameSLinkHourglass", "folder_slinkhourglass", "SLink Hourglass"},
+    {"FSInventoryAssistantFolderNameSLinkPhysique", "folder_slinkphysique", "SLink Physique"},
+    {"FSInventoryAssistantFolderNameKupra", "folder_kupra", "Kupra"},
+    {"FSInventoryAssistantFolderNameGenX", "folder_genx", "Gen X"},
+    {"FSInventoryAssistantFolderNameErika", "folder_erika", "Erika"},
+    {"FSInventoryAssistantFolderNameLegacyMale", "folder_legacymale", "Legacy Male"},
+    {"FSInventoryAssistantFolderNameJake", "folder_jake", "Jake"},
+    {"FSInventoryAssistantFolderNameGianni", "folder_gianni", "Gianni"},
+    {"FSInventoryAssistantFolderNameKario", "folder_kario", "Kario"},
+    {"FSInventoryAssistantFolderNameLeLutka", "folder_lelutka", "LeLutka"},
+    {"FSInventoryAssistantFolderNameCATWA", "folder_catwa", "CATWA"},
+    {"FSInventoryAssistantFolderNameGENUS", "folder_genus", "GENUS"},
+    {"FSInventoryAssistantFolderNameLAQ", "folder_laq", "LAQ"},
+    {"FSInventoryAssistantFolderNameUnrigged", "folder_unrigged", "Unrigged"}
 };
 
 std::string nonEmpty(const std::string& value, const char* fallback)
@@ -71,6 +110,9 @@ void LLFloaterInventoryAssistantSettings::loadSettings()
             gSavedPerAccountSettings.getBOOL(body.setting));
     }
 
+    getChild<LLCheckBoxCtrl>("auto_body_gender")->setValue(
+        gSavedPerAccountSettings.getBOOL("FSInventoryAssistantAutoBodyGender"));
+
     getChild<LLCheckBoxCtrl>("split_main_folders")->setValue(
         gSavedPerAccountSettings.getBOOL("FSInventoryAssistantSplitMainFolders"));
     getChild<LLCheckBoxCtrl>("split_hud_folder")->setValue(
@@ -84,6 +126,21 @@ void LLFloaterInventoryAssistantSettings::loadSettings()
         nonEmpty(gSavedPerAccountSettings.getString("FSInventoryAssistantAlphaFolderName"), "Alpha"));
     getChild<LLLineEditor>("addon_folder_name")->setText(
         nonEmpty(gSavedPerAccountSettings.getString("FSInventoryAssistantAddOnFolderName"), "Add On"));
+
+    std::string namingMode =
+        gSavedPerAccountSettings.getString("FSInventoryAssistantFolderNamingMode");
+    if (namingMode != "descriptive" && namingMode != "custom")
+        namingMode = "cts";
+    getChild<LLRadioGroup>("folder_naming_mode")->setValue(namingMode);
+
+    getChild<LLLineEditor>("descriptive_suffix")->setText(
+        nonEmpty(gSavedPerAccountSettings.getString("FSInventoryAssistantDescriptiveSuffix"), "Item"));
+
+    for (const FolderNameControl& folder : FOLDER_NAME_CONTROLS)
+    {
+        getChild<LLLineEditor>(folder.control)->setText(
+            nonEmpty(gSavedPerAccountSettings.getString(folder.setting), folder.fallback));
+    }
 }
 
 void LLFloaterInventoryAssistantSettings::saveSettings()
@@ -94,6 +151,10 @@ void LLFloaterInventoryAssistantSettings::saveSettings()
             body.setting,
             getChild<LLCheckBoxCtrl>(body.control)->getValue().asBoolean());
     }
+
+    gSavedPerAccountSettings.setBOOL(
+        "FSInventoryAssistantAutoBodyGender",
+        getChild<LLCheckBoxCtrl>("auto_body_gender")->getValue().asBoolean());
 
     gSavedPerAccountSettings.setBOOL(
         "FSInventoryAssistantSplitMainFolders",
@@ -114,6 +175,20 @@ void LLFloaterInventoryAssistantSettings::saveSettings()
     gSavedPerAccountSettings.setString(
         "FSInventoryAssistantAddOnFolderName",
         nonEmpty(getChild<LLLineEditor>("addon_folder_name")->getText(), "Add On"));
+
+    gSavedPerAccountSettings.setString(
+        "FSInventoryAssistantFolderNamingMode",
+        getChild<LLRadioGroup>("folder_naming_mode")->getValue().asString());
+    gSavedPerAccountSettings.setString(
+        "FSInventoryAssistantDescriptiveSuffix",
+        nonEmpty(getChild<LLLineEditor>("descriptive_suffix")->getText(), "Item"));
+
+    for (const FolderNameControl& folder : FOLDER_NAME_CONTROLS)
+    {
+        gSavedPerAccountSettings.setString(
+            folder.setting,
+            nonEmpty(getChild<LLLineEditor>(folder.control)->getText(), folder.fallback));
+    }
 }
 
 void LLFloaterInventoryAssistantSettings::onSaveClicked()

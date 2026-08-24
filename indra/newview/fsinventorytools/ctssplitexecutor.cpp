@@ -28,6 +28,7 @@ struct SplitItem
 struct SplitPackage
 {
     std::string body;
+    std::string outputFolderName;
     std::string rootName;
     std::vector<SplitItem> items;
 
@@ -124,7 +125,8 @@ bool buildPlan(const std::shared_ptr<SplitContext>& context,
     {
         SplitPackage package;
         package.body = body;
-        package.rootName = context->scan.productName + " - " + body;
+        package.outputFolderName = CTSBodySettings::outputTargetFolderName(body);
+        package.rootName = context->scan.productName + " - " + package.outputFolderName;
 
         if (rootNameExists(context->sourceParentId, package.rootName))
         {
@@ -249,7 +251,7 @@ void createBodyFolder(const std::shared_ptr<SplitContext>& context)
     gInventory.createNewCategory(
         package.rootId,
         LLFolderType::FT_NONE,
-        package.body,
+        package.outputFolderName,
         [context](const LLUUID& id)
         {
             if (id.isNull())
